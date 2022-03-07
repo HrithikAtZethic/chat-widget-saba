@@ -1,0 +1,24 @@
+<!-- 
+ * Parameters c, n are all used internally. They could have been
+ * declared using 'var', instead they are declared as parameters to save
+ * 4 bytes ('var ').
+ *
+ * @param {HTMLDocument}  e The DOM document object.
+ * @param {HTMLElement}   c The Document HEAD.
+ * @param {HTMLElement}   n Script tag.
+ *
+ * This Script tag's size is 188 Byte
+-->
+
+
+<script>
+    !function(e,c,n){c=e.head||e.getElementsByTagName("head")[0],(n=e.createElement("script")).async=!0,n.defer=!0,n.type="text/javascript",n.src="./chatScript.js",c.appendChild(n)}(document);
+</script>
+
+
+<!-- 
+*  References
+*  Link ( https://www.html5rocks.com/en/tutorials/speed/script-loading/ )
+*  Link ( https://humanwhocodes.com/blog/2009/07/28/the-best-way-to-load-external-javascript/ )
+*  Link ( https://stackoverflow.com/questions/22716542/google-analytics-code-explanation )
+-->
