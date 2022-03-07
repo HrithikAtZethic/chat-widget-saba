@@ -1,6 +1,6 @@
 # saba-website-widget
 
-To run this project locally you have to use "Live Server"
+To run this project locally you have to use "Live Server" Extention
 
 chatScript.js file has the "initialize()" function
 
