@@ -20,9 +20,10 @@ function elementCreate(element){ // Create any element
     return createdElement;
 }
 
+
 function addIconScript(){
     let script = document.createElement('script');
-    script.src = './assets/icons.js';  // This icon file needs to be "hosted" or have to "buy the CDN from font-awesome pro" or just "place the file in the repo" 
+    script.src = "https://widget.chatbothotels.com/assets/icons.js";  // This icon file needs to be "hosted" or have to "buy the CDN from font-awesome pro" or just "place the file in the repo" 
     document.body.appendChild(script);
 }
 
@@ -83,7 +84,7 @@ function shapeButton(element){ // Add CSS and Content and all.
 function onClickButton(){ // Onclick function
     let div = document.getElementById("chat-container");
     div.innerHTML = "";
-    let iframe = `<iframe src="./chatbox/chatbox.html"></iframe>`
+    let iframe = `<iframe src="https://widget.chatbothotels.com/chatbox/chatbox.html"></iframe>`
     div.innerHTML = iframe;
 }
 
