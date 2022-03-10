@@ -18,8 +18,8 @@ let global = {
     ? localStorage.getItem("lastMessageId")
     : '',
   timestamp: localStorage.getItem("chat_widget_data")
-  ? JSON.parse(localStorage.getItem("chat_widget_data")).timestamp
-  : '',
+    ? JSON.parse(localStorage.getItem("chat_widget_data")).timestamp
+    : null,
 };
 
 async function initialize() {
@@ -27,11 +27,12 @@ async function initialize() {
 
   await pusherInitialize();
 
-  global.channel.bind("bot", () => {
-    let MessageResponse = handleRequest(
-      `https://demo.dashboard.chatbothotels.com/api/v1/conversation/${global.conversation_id}?params[page]=1&params[perPage]=1&params[sorting]=desc&lastMessageId=${global.lastMessageId}`,
-      'GET'
-    );
+  global.channel.bind("bot", async (data) => {
+    if(data.payload.status === 'sent'){
+      let message = await getMessages(1,1);
+      let parsedMsg = parseMessage(message);
+      appendChat(false, { value: parsedMsg.p.fulfillmentText })  
+    }
   });
 }
 
@@ -50,6 +51,10 @@ async function pusherInitialize() {
 
     global.conversation_id = response.conversation_id;
     global.user_id = response.guest.id;
+
+    if(response.timestamp){
+      global.timestamp = response.timestamp;
+    }
 
     const pusher = new Pusher(config.appKey, {
       cluster: config.appCluster,
@@ -75,7 +80,7 @@ function getMessages(page, perPage) {
     `https://demo.dashboard.chatbothotels.com/api/v1/conversation/${global.conversation_id}?params[page]=${page}&params[perPage]=${perPage}&params[sorting]=desc&lastMessageId=${global.lastMessageId}&timestamp=${global.timestamp}`,
     'GET'
   );
-  console.log(response);
+  return response;
 }
 
 function scrolltoBottom() {
@@ -127,6 +132,18 @@ function manipulateData(text) {
   }
 }
 
+function parseMessage(data){
+  console.log(data);
+  let messages = data.conversation.data;
+  let msgObj = {};
+  messages.forEach((message) => {
+    msgObj.u =  message.sender.type,
+    msgObj.p = Object.assign({}, JSON.parse(message.body)),
+    localStorage.getItem("lastMessageId", message.id);
+  });
+  return msgObj;
+}
+
 function appendChat(isInitiator, chatInput) {
   //Create the elements
   let innerChild = `
@@ -175,7 +192,7 @@ async function handleRequest(url, method, data) {
         "X-Requested-With": "XMLHttpRequest"
       },
     });
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.warn("Something went wrong.", error);
     return false;
