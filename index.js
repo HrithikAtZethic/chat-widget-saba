@@ -84,7 +84,7 @@ function shapeButton(element){ // Add CSS and Content and all.
 function onClickButton(){ // Onclick function
     let div = document.getElementById("chat-container");
     div.innerHTML = "";
-    let iframe = `<iframe srcdoc="https://cdn.jsdelivr.net/gh/HrithikAtZethic/chat-widget-saba/chatbox/chatbox.html"></iframe>`
+    let iframe = `<iframe src="https://cdn.jsdelivr.net/gh/HrithikAtZethic/chat-widget-saba/chatbox/chatbox.html"></iframe>`
     div.innerHTML = iframe;
 }
 
